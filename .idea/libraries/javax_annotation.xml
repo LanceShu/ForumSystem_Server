@@ -1,0 +1,26 @@
+<component name="libraryTable">
+  <library name="javax.annotation">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/javax.annotation.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/javax.jms.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/javax.persistence.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/javax.resource.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/javax.servlet.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/javax.servlet.jsp.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/javax.servlet.jsp.jstl.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/javax.transaction.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/kotlin-reflect.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/kotlin-stdlib.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/kotlin-stdlib-jre7.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/kotlin-stdlib-jre8.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/kotlin-test.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/lib/kotlin-stdlib-jre7-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/kotlin-stdlib-jre8-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/kotlin-stdlib-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/kotlin-stdlib-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

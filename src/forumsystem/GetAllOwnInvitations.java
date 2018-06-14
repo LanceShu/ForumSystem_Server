@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 @WebServlet(name = "getallown", urlPatterns = "/getallown")
-public class GetAllOwn extends HttpServlet {
+public class GetAllOwnInvitations extends HttpServlet {
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setCharacterEncoding("UTF-8");

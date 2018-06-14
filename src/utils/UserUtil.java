@@ -5,9 +5,9 @@ public class UserUtil {
     private static String author;
     private static final String lock = "lock";
     public static void setUserInstance(String username) {
-        if (author == null) {
+        if (author == null || !author.equals(username)) {
             synchronized (lock) {
-                if (author == null) {
+                if (author == null || !author.equals(username)) {
                     author = username;
                     lock.notifyAll();
                 }

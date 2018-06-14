@@ -19,7 +19,7 @@ public class UserUtil {
         if (author == null) {
             try {
                 lock.wait();
-            } catch (InterruptedException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }

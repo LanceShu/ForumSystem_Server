@@ -19,7 +19,9 @@ public class CollectInvitation extends HttpServlet {
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
+        response.setContentType("text/javascript");
         response.setContentType("text/html");
+        response.setHeader("Access-Control-Allow-Origin", "*");
         PrintWriter pw = response.getWriter();
         // collect invitation user favourite (author, owner, content, date);
         String owner = request.getParameter("owner");

@@ -19,7 +19,9 @@ public class PublishOwnInvitation extends HttpServlet {
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
+        response.setContentType("text/javascript");
         response.setContentType("text/html");
+        response.setHeader("Access-Control-Allow-Origin", "*");
         PrintWriter pw = response.getWriter();
         // get user's information want to publish;
         String content = request.getParameter("content");

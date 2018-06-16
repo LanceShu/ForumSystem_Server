@@ -18,6 +18,8 @@ public class RegisterUser extends HttpServlet {
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setContentType("text/javascript");
         response.setContentType("text/html");
         PrintWriter pw = response.getWriter();
         // get user's information from request('username', 'password', 'gender');

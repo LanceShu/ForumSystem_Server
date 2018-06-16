@@ -18,7 +18,9 @@ public class GetAllFavouriteInvitations extends HttpServlet {
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
+        response.setContentType("text/javascript");
         response.setContentType("text/html");
+        response.setHeader("Access-Control-Allow-Origin", "*");
         PrintWriter pw = response.getWriter();
         IInvitation iInvitation = DAOFactory.createInvitationDao();
         String resp = "";

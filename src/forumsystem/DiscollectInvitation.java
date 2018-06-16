@@ -19,7 +19,9 @@ public class DiscollectInvitation extends HttpServlet {
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
+        response.setContentType("text/javascript");
         response.setContentType("text/html");
+        response.setHeader("Access-Control-Allow-Origin", "*");
         PrintWriter pw = response.getWriter();
         // discollect the invitation by parameters('author', 'owner', 'content', 'date')
         String owner = request.getParameter("owner");

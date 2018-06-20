@@ -4,13 +4,23 @@ public class Invitation {
     private String author;
     private String date;
     private String content;
+    private String head;
     private boolean iscollected;
 
-    public Invitation(String author, String date, String content, boolean iscollected) {
+    public Invitation(String author, String date, String content, String head, boolean iscollected) {
         this.author = author;
         this.date = date;
         this.content = content;
         this.iscollected = iscollected;
+        this.head = head;
+    }
+
+    public void setHead(String head) {
+        this.head = head;
+    }
+
+    public String getHead() {
+        return head;
     }
 
     public void setIscollected(boolean iscollected) {

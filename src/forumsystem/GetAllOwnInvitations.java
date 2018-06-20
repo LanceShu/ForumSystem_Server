@@ -2,7 +2,6 @@ package forumsystem;
 
 import idao.DAOFactory;
 import idao.IInvitation;
-import utils.UserUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,12 +18,17 @@ public class GetAllOwnInvitations extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         response.setContentType("text/javascript");
         response.setContentType("text/html");
+        request.setCharacterEncoding("UTF-8");
         response.setHeader("Access-Control-Allow-Origin", "*");
         PrintWriter pw = response.getWriter();
         IInvitation iInvitation = DAOFactory.createInvitationDao();
         String result = "";
-        if (UserUtil.getUserInstance() != null) {
-            result = iInvitation.queryOwnInvitations(UserUtil.getUserInstance());
+//        if (UserUtil.getUserInstance() != null) {
+//            result = iInvitation.queryOwnInvitations(UserUtil.getUserInstance());
+//        }
+        String username = request.getParameter("username");
+        if (username.length() != 0) {
+            result = iInvitation.queryOwnInvitations(username);
         }
         pw.write(result);
         pw.close();

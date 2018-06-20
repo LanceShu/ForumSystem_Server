@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <title>ForumSystem</title>
+    <!--<link rel="stylesheet" type="text/css" href="/css/index.css">-->
+    <script src="https://code.jquery.com/jquery-3.3.1.js"
+            integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+            crossorigin="anonymous"></script>
+    <base target="_self">
+    <meta http-equiv="Access-Control-Allow-Origin" content="*">
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+
+        a:link, a:visited, a:hover, a:active{
+            text-decoration: none;
+        }
+        a{
+            color: white;
+            display: block;
+        }
+
+
+        #mask {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 9999;
+            background: black;
+            opacity: 0.7;
+            display: none;
+        }
+
+        header {
+            top: 0;
+            width: 100%;
+            min-width: 720px;
+            position: fixed;
+            z-index: 999;
+        }
+        .head-box {
+            width: 100%;
+        }
+        .head-img {
+            float: left;
+            /*width: 43px;*/
+            height: 41px;
+            line-height: 41px;
+            padding: 0 20px;
+            background-color: darkslategrey;
+            color: white;
+        }
+        ul{
+            font-size: 16px;
+            background-color: #ff9137;
+            list-style-type: none;
+        }
+        li {
+            float: left;
+            width: 100px;
+            margin: 0 5px;
+            padding: 10px 0;
+            text-align: center;
+            cursor: pointer;
+        }
+        li:hover {
+            background-color: darkorange;
+        }
+        .special-li {
+            float: right;
+            width: 80px;
+        }
+
+        main {
+            padding-top: 41px;
+            position: absolute;
+            /*top: 0;*/
+            /*left:  0;*/
+            width: 100%;
+            height: 100%;
+            overflow: scroll;
+        }
+        .login_register {
+            display: none;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            margin: auto;
+            position: absolute;
+            box-sizing: border-box;
+            padding: 30px 20px 40px 20px;
+            background-color: lightblue;
+            z-index:10000;
+            overflow: hidden;
+        }
+        #login-box {
+            width: 260px;
+            height:340px;
+        }
+        #register-box {
+            width: 260px;
+            height:380px;
+        }
+        .close-box {
+            float: right;
+            margin: -20px -10px;
+            cursor: pointer;
+        }
+        .box-title {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .box-title span {
+            font-size: 18px;
+            text-indent: 10px;
+            letter-spacing: 10px;
+        }
+        .box-main {
+            width: 100%;
+            text-align: center;
+        }
+        .box-main input {
+            width: 90%;
+            margin-bottom: 20px;
+            padding: 10px 0;
+        }
+        .box-button {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .do-this {
+            width: 90%;
+            height:40px;
+        }
+
+
+
+        .page {
+            width: 100%;
+            min-width: 710px;
+            padding: 40px 60px;
+            box-sizing: border-box;
+            display: none;
+        }
+
+        .one-blog {
+            width: 100%;
+            margin-bottom: 30px;
+            border-bottom: 1px solid black;
+        }
+        .blog-author {
+            margin-bottom: 20px;
+        }
+        .blog-author span {
+            font-size: 25px;
+            font-weight: bold;
+        }
+        .content-like {
+            font-size: 14px !important;
+            margin-left: 15px;
+            color: #909090;
+            cursor: pointer;
+        }
+        .content-head {
+            font-size: 22px !important;
+            color: black;
+            cursor: pointer;
+        }
+        .content {
+            font-size: 16px !important;
+            color: black;
+            font-style: normal;
+            margin-top: 20px;
+        }
+        .content-author {
+            font-size: 14px !important;
+            margin-right: 8px;
+            color: #000000;
+            font-style: inherit;
+        }
+        .blog-content {
+            text-indent: 32px;
+            letter-spacing: 2px;
+            text-align: justify;
+            margin-bottom: 20px;
+        }
+        .blog-date {
+            overflow: hidden;
+        }
+        .blog-date span {
+            font-size: 14px;
+            float: right;
+        }
+
+    </style>
+</head>
+<body style="overflow: hidden">
+<div style="min-width: 710px;">
+    <div id="mask"></div>
+    <header>
+        <div class="head-box">
+            <!--<img src="https://www.baidu.com/img/bd_logo1.png?where=super" class="head-img">-->
+            <div class="head-img">
+                <span>新闻管理系统</span>
+            </div>
+            <ul style = "overflow: hidden;">
+                <li><a id="to-publish-page">发布新闻</a></li>
+                <li><a id="to-host-page">新闻热点</a></li>
+                <li><a id="to-collect-page">我的收藏</a></li>
+                <li><a id="to-own-page">我的发布</a></li>
+                <li id="to-register" class="special-li" style="margin-right: 40px; color: white;">注册</li>
+                <li id="to-login" class="special-li" style="color: white">登陆</li>
+            </ul>
+        </div>
+    </header>
+    <main>
+        <div id="login-box" class="login_register">
+            <div id="close-login-box" class="close-box">关闭</div>
+            <div class="box-title">
+                <span>登陆</span>
+            </div>
+            <div class="box-main">
+                <input type="text" placeholder="用户名" id="user">
+                <input type="password" placeholder="密码" id="pass">
+            </div>
+            <div class="box-button">
+                <input type="button" value="登录" class="do-this" id="loginBtn">
+            </div>
+        </div>
+        <div id="register-box" class="login_register">
+            <div id="close-register-box" class="close-box">关闭</div>
+            <div class="box-title">
+                <span>注册</span>
+            </div>
+            <div class="box-main">
+                <input type="text" placeholder="用户名" id="register-user">
+                <input type="password" placeholder="密码" id="register-pass">
+                <input type="text" placeholder="性别" id="register-gender">
+            </div>
+            <div class="box-button">
+                <input type="button" value="注册" class="do-this" id="registerBtn">
+            </div>
+        </div>
+        <div id="host-page" class="page"></div>
+        <div id="collect-page" class="page"></div>
+        <div id="own-page" class="page"></div>
+        <div id="publish-page" class="page">
+            <div style="width: 100%; height: auto; text-align: center">
+                <input id="news_publish_head" type="text" placeholder="新闻标题" style="width: 100%; min-height: 45px; box-sizing: border-box; border-width: 2px; font-size: 16px; text-align: center;"><br>
+                <input id="news_publish_content" type="text" placeholder="新闻内容" style="width: 100%; min-height: 400px; box-sizing: border-box; border-width: 2px; font-size: 16px; text-align: center; margin-top: 12px;"><br>
+                <input id="news_publish_btn" type="button" value="发布新闻" style="width: 180px; height: 32px; text-align: center; font-size: 16px; margin-top: 12px;">
+            </div>
+        </div>
+    </main>
+</div>
+<script>
+    //设置cookie
+    function setCookie (_name, value, expire) {
+        var date = new Date();
+        date.setSeconds(date.getSeconds() + expire);
+        console.log(date.toGMTString());
+        document.cookie = _name + '='+ value + ';expire=' + date.toGMTString();
+        console.log(document.cookie);
+    }
+    //获取cookie
+    function getCookie (_name) {
+        if (document.cookie.length > 0) {
+            var _start = document.cookie.indexOf(_name + '=');
+            if (_start != -1) {
+                _start += _name.length + 1;
+                var _end = document.cookie.indexOf(';_start')
+                if (_end == -1) {
+                    _end=document.cookie.length;
+                }
+                return document.cookie.substring(_start, _end);
+            }
+        }
+        return ''
+    }
+    //删除cookie
+    function delCookie (_name) {
+        setCookie(_name, '', -1);
+    }
+
+    //收藏按钮列表
+    var collectList
+    //首页数据储存
+    var hostData;
+    //我的收藏数据储存
+    var collectData;
+
+    //列表节点
+    //        var menuList = document.getElementsByTagName('li');
+    //        for(let key in menuList) {
+    //            menuList[key].onclick = function () {
+    //
+    //            }
+    //        }
+
+    // 遮罩
+    var mask = document.getElementById('mask');
+
+    // 登陆索引
+    var toLogin = document.getElementById('to-login');
+    // 关闭登陆
+    var closeLogin = document.getElementById('close-login-box');
+    // 登录按钮
+    var loginBtn = document.getElementById('loginBtn');
+    // 用户名和密码输入框
+    var login_username = document.getElementById('user');
+    var login_password = document.getElementById('pass');
+
+    // 注册索引;
+    var toRegister = document.getElementById('to-register');
+    // 关闭注册
+    var closeRegister = document.getElementById('close-register-box');
+    // 注册按钮;
+    var registerBtn = document.getElementById('registerBtn');
+    // 注册输入框;
+    var register_username = document.getElementById('register-user');
+    var register_password = document.getElementById('register-pass');
+    var register_gender = document.getElementById('register-gender');
+
+    // 登陆窗口
+    var loginBox = document.getElementById('login-box');
+    // 注册窗口
+    var registerBox = document.getElementById('register-box');
+
+    // 发布索引;
+    var toPublishPage = document.getElementById('to-publish-page');
+    // 发布;
+    var publishPage = document.getElementById('publish-page');
+    // 发布新闻按钮;
+    var publishNewsBtn =document.getElementById('news_publish_btn');
+    // 发布新闻的标题;
+    var publishTitle = document.getElementById('news_publish_head');
+    // 发布新闻的内容;
+    var publishContent = document.getElementById('news_publish_content');
+
+    // 首页索引
+    var toHostPage = document.getElementById('to-host-page');
+    // 首页
+    var hostPage = document.getElementById('host-page');
+
+    // 我的收藏索引
+    var toCollectPage = document.getElementById('to-collect-page');
+    // 我的收藏
+    var collectPage = document.getElementById('collect-page');
+
+    // 我的发布索引
+    var to0wnPage = document.getElementById('to-own-page');
+    // 我的发布;
+    var ownPage = document.getElementById('own-page');
+
+    // 登录 点击事件；
+    toLogin.addEventListener('click', showLogin, false);
+    closeLogin.onclick = function () {
+        loginBox.style.display = 'none';
+        mask.style.display = 'none'
+    };
+    loginBtn.onclick = function () {
+        doLogin(login_username.value, login_password.value);
+    };
+    // 显示登录框;
+    function showLogin() {
+        loginBox.style.display = 'block';
+        mask.style.display = 'block'
+    }
+
+    // 注册 点击事件；
+    toRegister.addEventListener('click', showRegister, false);
+    closeRegister.onclick = function () {
+        registerBox.style.display = 'none';
+        mask.style.display = 'none'
+    };
+    registerBtn.onclick = function () {
+        doRegister(register_username.value, register_password.value, register_gender.value);
+    };
+    // 显示注册框;
+    function showRegister() {
+        registerBox.style.display = 'block';
+        mask.style.display = 'block'
+    }
+
+
+    // 首页 点击事件;
+    toHostPage.onclick = function () {
+        getHostData();
+    };
+    // 我的收藏 点击事件;
+    toCollectPage.onclick = function () {
+        if (getCookie('username') !== '') {
+            getCollectData();
+        } else {
+            showLogin();
+        }
+    };
+    // 我的发布 点击事件;
+    to0wnPage.onclick = function () {
+        if (getCookie('username') !== '') {
+            getOwnData();
+        } else {
+            showLogin();
+        }
+    };
+    // 发布新闻索引点击事件;
+    toPublishPage.onclick = function () {
+        if (getCookie('username') !== '') {
+            toPublish();
+        } else {
+            showLogin();
+        }
+    };
+
+
+    // 发布新闻按钮的点击事件;
+    publishNewsBtn.onclick = function () {
+        publishNews(publishTitle.value, publishContent.value);
+    };
+    // 发布新闻;
+    function publishNews(_title, _content) {
+        var _username = getCookie('username');
+        if (_title.length === 0 || _content.length === 0) {
+            alert("新闻的标题与内容不能为空");
+        }
+        $.ajax({
+            url: 'http://123.207.145.251:8080/ForumSystem/publish',
+            methods: 'GET',
+            data: {
+                "username": _username,
+                "content": _content,
+                "head": _title
+            },
+            success: function (data) {
+                var _data = JSON.parse(data);
+                alert(_data.content);
+                if (_data.status) {
+                    publishContent.value = "";
+                    publishTitle.value = "";
+                }
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        })
+    }
+    // 跳转到发布新闻界面;
+    function toPublish() {
+        hostPage.style.display = 'none';
+        collectPage.style.display = 'none';
+        ownPage.style.display = 'none';
+        publishPage.style.display = 'block';
+    }
+
+    // 注册
+    function doRegister(_username, _password, _gender) {
+        $.ajax({
+            url: 'http://123.207.145.251:8080/ForumSystem/register',
+            methods: 'GET',
+            data: {
+                'username': _username,
+                'password': _password,
+                'gender': _gender
+            },
+            success: function (data) {
+                var _data = JSON.parse(data);
+                console.log(_data);
+                if (_data.status === 'failure') {
+                    alert(_data.content);
+                } else {
+                    alert(_data.content);
+                    registerBox.style.display = 'none';
+                    mask.style.display = 'none';
+                    doLogin(_username, _password);
+                }
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        })
+    }
+
+    // 登录
+    function doLogin(_user, _pass) {
+        $.ajax({
+            url: 'http://123.207.145.251:8080/ForumSystem/login',
+            methods: 'GET',
+            data: {
+                "username": _user,
+                "password": _pass
+            },
+            success: function (data) {
+                var _data = JSON.parse(data);
+                if (_data.status === 'failure') {
+                    alert(_data.content);
+                    password.value = '';
+                } else {
+                    loginSuccess(_user);
+                }
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        })
+    }
+    //登陆成功
+    function loginSuccess(_user) {
+        setCookie('username', _user, 1000);
+//            loginBox.style.display = 'none';
+//            mask.style.display = 'none';
+//            toLogin.innerHTML = _user;
+//            toLogin.removeEventListener('click', showLogin);
+//            toRegister.innerHTML = '注销';
+//            toRegister.removeEventListener('click', showRegister);
+//            toRegister.addEventListener('click', quitLogin);
+        alert("登录成功");
+        location.reload();
+    }
+    //退出登录
+    function quitLogin() {
+        var _choose = confirm('是否注销用户?');
+        if (_choose) {
+            delCookie('username');
+//                toLogin.innerHTML = '登录';
+//                toLogin.addEventListener('click', showLogin, false);
+//                toRegister.innerHTML = '注册';
+//                toRegister.removeEventListener('click', quitLogin);
+//                toRegister.addEventListener('click', showRegister, false);
+            location.reload();
+        }
+    }
+
+
+    // 获取 首页 数据;
+    function getHostData() {
+        collectPage.style.display = 'none';
+        ownPage.style.display  = 'none';
+        publishPage.style.display = 'none';
+        $.ajax({
+            url: 'http://123.207.145.251:8080/ForumSystem/getallinvitations',
+            methods: 'GET',
+            success: function (data) {
+                var _data = JSON.parse(data);
+                if (_data.status === 'success') {
+                    showHost(hostPage, _data.invitationList);
+                    doCollect(_data.invitationList);
+                }
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        })
+    }
+    // 获取 我的收藏 数据;
+    function getCollectData() {
+        var _username = getCookie('username');
+        hostPage.style.display = 'none';
+        ownPage.style.display = 'none';
+        publishPage.style.display = 'none';
+        $.ajax({
+            url: 'http://123.207.145.251:8080/ForumSystem/getallfavourite',
+            methods: 'GET',
+            data: {
+                'username': _username
+            },
+            success: function (data) {
+                var _data = JSON.parse(data);
+                if (_data.status === 'success') {
+                    showHost(collectPage, _data.invitationList);
+                    console.log(_data.invitationList);
+                    doDiscollect(_data.invitationList);
+                }
+            },
+            error: function (err) {
+                console.log(err)
+            }
+        })
+    }
+    // 获取我的发布数据;
+    function getOwnData() {
+        var _username = getCookie('username');
+        hostPage.style.display = 'none';
+        collectPage.style.display = 'none';
+        publishPage.style.display = 'none';
+        $.ajax({
+            url: 'http://123.207.145.251:8080/ForumSystem/getallown',
+            methods: 'GET',
+            data: {
+                'username': _username
+            },
+            success: function (data) {
+                var _data = JSON.parse(data);
+                if (_data.status === 'success') {
+                    showHost(ownPage, _data.invitationList);
+                    console.log(_data.invitationList);
+                    doDelete(_data.invitationList);
+                }
+            },
+            error: function (err) {
+                console.log(err)
+            }
+        })
+    }
+
+    //执行收藏
+    function doCollect(_data) {
+        var _collectList = hostPage.getElementsByClassName('content-like');
+        for (let key in _collectList) {
+            _collectList[key].onclick = function () {
+                var _username = getCookie('username');
+                $.ajax({
+                    url: 'http://123.207.145.251:8080/ForumSystem/iscollected',
+                    method: 'GET',
+                    data: {
+                        'username': _username,
+                        'content': _data[key].content,
+                        'date': _data[key].date
+                    },
+                    success: function (data) {
+                        var _da = JSON.parse(data);
+                        console.log(_da);
+                        if (_da.status === 'success') {
+                            alert("该新闻已被收藏");
+                        } else {
+                            collectNews(_data[key].author, _data[key].date, _data[key].content, _data[key].head);
+                        }
+                    },
+                    error: function (err) {
+                        console.log(err);
+                    }
+                });
+            };
+        }
+    }
+    // 收藏新闻;
+    function collectNews(_owner, _date, _content, _head) {
+        console.log(_owner, _date, _content);
+        var _username = getCookie('username');
+        $.ajax({
+            url: 'http://123.207.145.251:8080/ForumSystem/collect',
+            method: 'GET',
+            data: {
+                'username': _username,
+                'owner': _owner,
+                'content': _content,
+                'date': _date,
+                'title': _head
+            },
+            success: function (data) {
+                var _data = JSON.parse(data);
+                console.log(_data);
+                alert(_data.content);
+                location.reload();
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        })
+    }
+
+    // 执行取消收藏
+    function doDiscollect(_data) {
+        var _collectList = collectPage.getElementsByClassName('content-like');
+        for (let key in _collectList) {
+            _collectList[key].onclick = function () {
+                discollectNews(_data[key].author, _data[key].content, _data[key].date);
+            }
+        }
+    }
+    // 取消收藏;
+    function discollectNews(_owner, _content, _date) {
+        var _username = getCookie('username');
+        console.log(_username, _owner, _content, _date);
+        $.ajax({
+            url: 'http://123.207.145.251:8080/ForumSystem/discollect',
+            method: 'GET',
+            data: {
+                'username': _username,
+                'content': _content,
+                'date': _date,
+                'owner': _owner
+            },
+            success: function (data) {
+                var _data = JSON.parse(data);
+                console.log(_data);
+                alert(_data.content);
+                location.reload();
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        })
+    }
+
+    // 执行删除新闻操作;
+    function doDelete(_data) {
+        var _collectList = ownPage.getElementsByClassName('content-like');
+        for (let key in _collectList) {
+            _collectList[key].onclick = function () {
+                deleteNews(_data[key].content, _data[key].date);
+            }
+        }
+    }
+    // 删除新闻;
+    function deleteNews(_content, _date) {
+        var _username = getCookie('username');
+        $.ajax({
+            url: 'http://123.207.145.251:8080/ForumSystem/delete',
+            method: 'GET',
+            data: {
+                'username': _username,
+                'content': _content,
+                'date': _date
+            },
+            success: function (data) {
+                var _data = JSON.parse(data);
+                console.log(_data);
+                alert(_data.content);
+                location.reload();
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        })
+    }
+
+    // 将获取到的数据展示出来;
+    function showHost(ele, data) {
+        var _username = getCookie("username");
+        if(ele.getElementsByTagName('div').length === 0) {
+            for (var key in data) {
+                var oneBlog = document.createElement('div');
+                oneBlog.className = 'one-blog';
+
+                var blogAuthor = document.createElement('div');
+                blogAuthor.className = 'blog-head';
+                if (ele === hostPage) {
+                    blogAuthor.innerHTML = '<span class="content-head">' + data[key].head + '</span>' +
+                        '<span class="content-like" id="collect-news">收藏</span>';
+                }
+                if (ele === collectPage) {
+                    blogAuthor.innerHTML = '<span class="content-head">' + data[key].head + '</span>' +
+                        '<span class="content-like" id="discollect-news">取消收藏</span>';
+                }
+                if (ele === ownPage) {
+                    blogAuthor.innerHTML = '<span class="content-head">' + data[key].head + '</span>' +
+                        '<span class="content-like" id="delete-news">删除</span>';
+                }
+
+                var blogContent = document.createElement('div');
+                blogContent.className = 'blog-content';
+                blogContent.innerHTML = '<p class="content">' + data[key].content + '</p>';
+
+                var blogDate = document.createElement('div');
+                blogDate.className = 'blog-date';
+                blogDate.innerHTML = '<span class="content-author">'+ data[key].author+'</span>'+'<span style="margin-right: 15px;">' + data[key].date + '</span>';
+
+                oneBlog.appendChild(blogAuthor);
+                oneBlog.appendChild(blogContent);
+                oneBlog.appendChild(blogDate);
+
+                ele.appendChild(oneBlog);
+            }
+        }
+        ele.style.display = 'block';
+    }
+
+    function isLogin() {
+        var _user = getCookie('username');
+        console.log(_user);
+        if (_user !== '') {
+            toLogin.innerHTML = _user;
+            toLogin.removeEventListener('click', showLogin);
+            toRegister.innerHTML = '注销';
+            toRegister.removeEventListener('click', showRegister);
+            toRegister.addEventListener('click', quitLogin);
+        }
+    }
+
+    window.addEventListener('load', getHostData);
+    window.addEventListener('load', isLogin);
+</script>
+</body>
+</html>

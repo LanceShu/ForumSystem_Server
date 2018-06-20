@@ -2,7 +2,6 @@ package forumsystem;
 
 import idao.DAOFactory;
 import idao.IInvitation;
-import utils.UserUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -25,11 +24,16 @@ public class PublishOwnInvitation extends HttpServlet {
         PrintWriter pw = response.getWriter();
         // get user's information want to publish;
         String content = request.getParameter("content");
+        String head = request.getParameter("head");
         IInvitation iInvitation = DAOFactory.createInvitationDao();
         String result = "";
-        if (UserUtil.getUserInstance() != null) {
-            result = iInvitation.publishInvitation(UserUtil.getUserInstance(), content);
+        String username = request.getParameter("username");
+        if (username.length() != 0) {
+            result = iInvitation.publishInvitation(username, head, content);
         }
+//        if (UserUtil.getUserInstance() != null) {
+//            result = iInvitation.publishInvitation(UserUtil.getUserInstance(), content);
+//        }
         pw.write(result);
         pw.close();
     }

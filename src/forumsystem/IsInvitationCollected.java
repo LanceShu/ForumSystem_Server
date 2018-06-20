@@ -1,7 +1,6 @@
 package forumsystem;
 
 import idao.DAOFactory;
-import idao.IInvitation;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,25 +10,23 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-@WebServlet(name = "getallfavourite", urlPatterns = "/getallfavourite")
-public class GetAllFavouriteInvitations extends HttpServlet {
+@WebServlet(name = "iscollected", urlPatterns = "/iscollected")
+public class IsInvitationCollected extends HttpServlet {
     @Override
-    protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void service(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
-        request.setCharacterEncoding("UTF-8");
-        response.setContentType("text/javascript");
         response.setContentType("text/html");
         response.setHeader("Access-Control-Allow-Origin", "*");
         PrintWriter pw = response.getWriter();
-        IInvitation iInvitation = DAOFactory.createInvitationDao();
-        String resp = "";
-//        if (UserUtil.getUserInstance() != null) {
-//            resp = iInvitation.queryFavouriteInvitations(UserUtil.getUserInstance());
-//        }
+        // get parameters(username, content, date);
         String username = request.getParameter("username");
+        String content = request.getParameter("content");
+        String date = request.getParameter("date");
+        String resp = "";
         if (username.length() != 0) {
-            resp = iInvitation.queryFavouriteInvitations(username);
+            resp = DAOFactory.createInvitationDao().isCollected(username, content, date);
         }
         pw.write(resp);
         pw.close();

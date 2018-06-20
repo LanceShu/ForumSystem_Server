@@ -2,7 +2,6 @@ package forumsystem;
 
 import idao.DAOFactory;
 import idao.IInvitation;
-import utils.UserUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -32,9 +31,13 @@ public class DiscollectInvitation extends HttpServlet {
 //        String date = "2018-06-13 16:23:56";
         IInvitation iInvitation = DAOFactory.createInvitationDao();
         String result = "";
-        if (UserUtil.getUserInstance() != null) {
-            result = iInvitation.discollectInvitation(UserUtil.getUserInstance(), owner, date, content);
+        String username = request.getParameter("username");
+        if (username.length() != 0) {
+            result = iInvitation.discollectInvitation(username, owner, date, content);
         }
+//        if (UserUtil.getUserInstance() != null) {
+//            result = iInvitation.discollectInvitation(UserUtil.getUserInstance(), owner, date, content);
+//        }
         pw.write(result);
         pw.close();
     }

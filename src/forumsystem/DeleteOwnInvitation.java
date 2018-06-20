@@ -2,7 +2,6 @@ package forumsystem;
 
 import idao.DAOFactory;
 import idao.IInvitation;
-import utils.UserUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -28,9 +27,13 @@ public class DeleteOwnInvitation extends HttpServlet {
         String date = request.getParameter("date");
         IInvitation iInvitation = DAOFactory.createInvitationDao();
         String result = "";
-        if (UserUtil.getUserInstance() != null) {
-            result = iInvitation.deleteOwnInvitation(UserUtil.getUserInstance(), content, date);
+        String username = request.getParameter("username");
+        if (username.length() != 0) {
+            result = iInvitation.deleteOwnInvitation(username, content, date);
         }
+//        if (UserUtil.getUserInstance() != null) {
+//            result = iInvitation.deleteOwnInvitation(UserUtil.getUserInstance(), content, date);
+//        }
         pw.write(result);
         pw.close();
     }

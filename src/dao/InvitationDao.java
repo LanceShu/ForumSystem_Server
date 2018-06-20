@@ -235,6 +235,13 @@ public class InvitationDao implements IInvitation {
         try {
             statement = manager.prepareStatement("DELETE FROM own_invitation WHERE oauthor='"+author+"' AND ocontent='"+content+"' AND odate='"+date+"'");
             result = statement.execute();
+            if (result) {
+                status.setStatus("failure");
+                status.setContent("删除失败");
+                return JsonUtil.objectToJson(status);
+            }
+            statement = manager.prepareStatement("DELETE FROM all_invitation WHERE iauthor='"+author+"' AND icontent='"+content+"' AND idate='"+date+"'");
+            result = statement.execute();
             status.setStatus(result ? "failure" : "success");
             status.setContent(result ? "删除失败" : "删除成功");
             return JsonUtil.objectToJson(status);
